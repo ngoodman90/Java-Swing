@@ -13,11 +13,9 @@ public class ProjectConstants {
     
     //Images
     public static final String BACKGROUND_IMG = "background.jpg";
-    public static final String BOAT_IMG = "boat.jpg";
-    public static final String BOAT_LEFT_IMG = "boatLeft.jpg";
-    public static final String BOAT_RIGHT_IMG = "boatRight.jpg";
-    public static final String PLANE_IMG = "plane.jpg";
-    public static final String PARACHUTE_IMG = "parachute.jpg";
+    public static final String BOAT_IMG = "transparentBoat.png";
+    public static final String PLANE_IMG = "transparentPlane.png";
+    public static final String PARACHUTE_IMG = "transparentParachute.png";
     
     //Sizes
     public static final int WIDTH = 1280;

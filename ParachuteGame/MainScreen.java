@@ -5,10 +5,12 @@
  */
 package job;
 
+import java.awt.BorderLayout;
 import java.awt.DisplayMode;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -21,81 +23,78 @@ import javax.swing.Timer;
  *
  * @author Noam
  */
-public class MainScreen extends JFrame{
+public class MainScreen{
     
-    private ArrayList<JLabel> imageArray = new ArrayList<>();
-    private boolean imagesLoaded = false;
+    private JFrame content;
     
     public static void main(String[] args)
     {
-        DisplayMode displayMode = new DisplayMode(1920, 1080, 16, DisplayMode.REFRESH_RATE_UNKNOWN);
-        MainScreen mainScreen = new MainScreen();
+//        DisplayMode displayMode = new DisplayMode(1920, 1080, 16, DisplayMode.REFRESH_RATE_UNKNOWN);
+          MainScreen mainScreen = new MainScreen();
         EventQueue.invokeLater(new Runnable()
         {
             public void run()
             {
                     //  Create a panel with a component to be moved
-                    Screen screen = new Screen();
-                    screen.setFullScreen(displayMode, mainScreen);
-                    JPanel content = new JPanel();
-                    content.setLayout(null);
+//                    Screen screen = new Screen();
+//                    screen.setFullScreen(displayMode, mainScreen);
+                mainScreen.content = new JFrame();
+                mainScreen.content.setLayout(null);
                     
-                    mainScreen.loadBackground(content);
-                    mainScreen.createBoat(content);
-                    mainScreen.createPlane(content);
-                    mainScreen.createParachute(content);
-                    mainScreen.imagesLoaded = true;
-                    
-                    JFrame.setDefaultLookAndFeelDecorated(true);
-                    JFrame frame = new JFrame("Main Screen");
-                    frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                    frame.add( content );
-                    frame.setSize(ProjectConstants.WIDTH, ProjectConstants.HEIGHT);
-                    frame.setLocationByPlatform( true );
-                    frame.setVisible(true);
+                mainScreen.loadBackground();
+                mainScreen.createBoat();
+                mainScreen.createPlane();
+                mainScreen.createParachute();
+                
+                
+                JFrame.setDefaultLookAndFeelDecorated(true);
+                mainScreen.content.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                mainScreen.content.setSize(ProjectConstants.WIDTH, ProjectConstants.HEIGHT);
+                mainScreen.content.setLocationByPlatform( true );
+                mainScreen.content.setVisible(true);
             }
         });
     }
     
-    public void loadBackground(JPanel content)
+    public void loadBackground()
     {
         try{
-        ImageIcon background = ImageMotion.createImageIcon(ProjectConstants.BACKGROUND_IMG, "background image");
-        JLabel backgroundComponent = new JLabel( background );
-        backgroundComponent.setSize( backgroundComponent.getPreferredSize() );
-        backgroundComponent.setLocation(0, 0);
-        content.add(backgroundComponent);
+            ImageIcon background = ImageMotion.createImageIcon(ProjectConstants.BACKGROUND_IMG, "background image");
+            JLabel contentPane = new JLabel();
+            contentPane.setIcon( background );
+            contentPane.setLayout( new BorderLayout() );
+            this.content.setContentPane( contentPane );
         } catch (Exception e) {}
     }
-    public void createBoat(JPanel content)
+    public void createBoat()
     {
         ImageIcon boatIcon = ImageMotion.createImageIcon(ProjectConstants.BOAT_IMG, "boat image"); 
         JLabel boatComponent = new JLabel( boatIcon );
         boatComponent.setSize( boatComponent.getPreferredSize() );
-        boatComponent.setLocation(40, 40);
-        content.add(boatComponent);
+        boatComponent.setLocation(500, 500);
+        this.content.add(boatComponent);
         MotionWithKeyBindings.addMotionSupport(boatComponent, 10, 0);
     }
     
-    public void createPlane(JPanel content)
+    public void createPlane()
     {
         ImageIcon planeIcon = ImageMotion.createImageIcon(ProjectConstants.PLANE_IMG, "plane image"); 
         JLabel planeComponent = new JLabel( planeIcon );
         planeComponent.setSize( planeComponent.getPreferredSize() );
-        planeComponent.setLocation(500, 500);
-        content.add(planeComponent);
-        ImageMotion.MotionAction planeMovementAction = new ImageMotion.MotionAction(planeComponent, 1, 0);
+        planeComponent.setLocation(40, 40);
+        this.content.add(planeComponent);
+        ImageMotion.AutoMotionAction planeMovementAction = new ImageMotion.AutoMotionAction(planeComponent, 15, 0);
         new Timer(50, planeMovementAction).start(); 
     }
     
-    public void createParachute(JPanel content)
+    public void createParachute()
     {
         ImageIcon parachuteIcon = ImageMotion.createImageIcon(ProjectConstants.PARACHUTE_IMG, "parachute image"); 
         JLabel parachuteComponent = new JLabel( parachuteIcon );
         parachuteComponent.setSize( parachuteComponent.getPreferredSize() );
         parachuteComponent.setLocation(100, 100);
-        content.add(parachuteComponent);
-        ImageMotion.MotionAction parachuteMovementAction = new ImageMotion.MotionAction(parachuteComponent, 0, 5);
-        new Timer(50, parachuteMovementAction).start(); 
+        this.content.add(parachuteComponent);
+        ImageMotion.AutoMotionAction parachuteMovementAction = new ImageMotion.AutoMotionAction(parachuteComponent, 0, 10);
+        new Timer(15, parachuteMovementAction).start(); 
     }
 }

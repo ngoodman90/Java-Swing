@@ -43,6 +43,7 @@ public class ImageMotion {
             int componentHeight = component.getSize().height;
 
             Dimension parentSize = component.getParent().getSize();
+            
             int parentWidth  = parentSize.width;
             int parentHeight = parentSize.height;
 
@@ -85,6 +86,68 @@ public class ImageMotion {
         public void actionPerformed(ActionEvent e)
         {
             move(component, deltaX, deltaY);
+        }
+    }
+    
+    
+    public static class AutoMotionAction extends AbstractAction implements ActionListener
+    {
+        private JComponent component;
+        private int deltaX;
+        private int deltaY;
+
+        public AutoMotionAction(JComponent component, int deltaX, int deltaY)
+        {
+                this.component = component;
+                this.deltaX = deltaX;
+                this.deltaY = deltaY;
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            int componentWidth = component.getSize().width;
+            int componentHeight = component.getSize().height;
+
+            Dimension parentSize = component.getParent().getSize();
+            
+            int parentWidth  = parentSize.width;
+            int parentHeight = parentSize.height;
+            
+            double x = Math.random();
+            if ((0.045 < x &&  x < 0.05) || (0.225 < x &&  x < 0.23) || (0.785 < x && x < 0.79) || (0.885 < x && x < 0.89) || (0.985 < x && x < 0.99))
+            {
+                this.deltaX *= -1;
+                this.deltaY *= -1;
+            }
+            
+            int nextX = Math.max(component.getLocation().x + deltaX, 0);
+
+            //check if component is at right edge
+            if ( nextX + componentWidth > parentWidth)
+            {
+                    nextX = parentWidth - componentWidth;
+                    this.deltaX *= -1;//flip direction
+            }
+            //check if component is at left edge
+            if (nextX == 0)
+                this.deltaX *= -1;//flip direction
+
+            //  Determine next Y position
+
+            int nextY = Math.max(component.getLocation().y + deltaY, 0);
+
+            if ( nextY + componentHeight > parentHeight)
+            {
+                    nextY = parentHeight - componentHeight;
+                    this.deltaY *= -1;//flip direction
+            }
+            //check if component is at top edge
+            if (nextY == 0)
+                this.deltaY *= -1;//flip direction
+
+            //  Move the component
+
+            component.setLocation(nextX, nextY);
         }
     }
 }
