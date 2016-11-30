@@ -9,26 +9,16 @@ package job;
  *
  * @author Noam
  */
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.net.*;
-import java.net.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import job.ImageMotion.MotionAction;
 
 public class MotionWithKeyBindings
 {
-	private JComponent component;
-        private int deltaX;
-        private int deltaY;
+	private final JComponent component;
 
 	public MotionWithKeyBindings(JComponent component)
 	{
 		this.component = component;
-                this.deltaX = deltaX;
-                this.deltaY = deltaY;
 	}
 
 	//  Move the component to its new location. The component will stop
